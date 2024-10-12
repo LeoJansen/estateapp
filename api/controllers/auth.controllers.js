@@ -4,10 +4,8 @@ import prisma from "../lib/prisma.js";
 
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
-  console.log("password" + password);
   const passwordString = password.toString();
-  console.log("typeof password => " + typeof password); 
-  console.log("typeof passwordString => " + typeof passwordString);
+ 
 
   try {
     // HASH THE PASSWORD $2b$10$C6FxX9yI0L/c16FPqtV1cOlHALQuaTz22WbAKEJr8WtV9hbrSINwK
@@ -17,7 +15,7 @@ export const register = async (req, res) => {
     console.log(hashedPassword);
 
     // CREATE A NEW USER AND SAVE TO DB
-    /* const newUser = await prisma.user.create({
+   const newUser = await prisma.user.create({
       data: {
         username,
         email,
@@ -27,7 +25,7 @@ export const register = async (req, res) => {
 
     console.log(newUser);
 
-    res.status(201).json({ message: "User created successfully" }); */
+    res.status(201).json({ message: "User created successfully" });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Failed to create user!" });
