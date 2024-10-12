@@ -9,6 +9,7 @@ import chatRoute from "./routes/chat.routes.js";
 import messageRoute from "./routes/message.routes.js"; */
 
 const app = express();
+app.use(express.json())
 
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
@@ -22,5 +23,5 @@ app.use("/api/chats", chatRoute);
 app.use("/api/messages", messageRoute); */
 
 app.listen(8800, () => {
-  console.log("Server is running!");
+  console.log(`Server is running on\nhttp://localhost:8800/`);
 });
