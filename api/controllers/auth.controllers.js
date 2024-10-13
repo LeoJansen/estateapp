@@ -12,8 +12,6 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(passwordString, 10);
 
-    console.log(hashedPassword);
-
     // CREATE A NEW USER AND SAVE TO DB
    const newUser = await prisma.user.create({
       data: {
@@ -27,8 +25,8 @@ export const register = async (req, res) => {
 
     res.status(201).json({ message: "User created successfully" });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Failed to create user!" });
+    console.log({err});
+    res.status(500).json({ message: err });
   }
 };
 
