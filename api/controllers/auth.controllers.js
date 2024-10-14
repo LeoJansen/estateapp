@@ -4,16 +4,16 @@ import prisma from "../lib/prisma.js";
 
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
-  const passwordString = password.toString();
- 
 
   try {
-    // HASH THE PASSWORD $2b$10$C6FxX9yI0L/c16FPqtV1cOlHALQuaTz22WbAKEJr8WtV9hbrSINwK
+    // HASH THE PASSWORD
 
-    const hashedPassword = await bcrypt.hash(passwordString, 10);
+    const hashedPassword = await bcrypt.hash(password.toString(), 10);
+
+    console.log(hashedPassword);
 
     // CREATE A NEW USER AND SAVE TO DB
-   const newUser = await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         username,
         email,
@@ -25,8 +25,8 @@ export const register = async (req, res) => {
 
     res.status(201).json({ message: "User created successfully" });
   } catch (err) {
-    console.log({err});
-    res.status(500).json({ message: err });
+    console.log(err);
+    res.status(500).json({ message: "Failed to create user!" });
   }
 };
 
@@ -44,7 +44,7 @@ export const login = async (req, res) => {
 
     // CHECK IF THE PASSWORD IS CORRECT
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password.toString(), user.password);
 
     if (!isPasswordValid)
       return res.status(400).json({ message: "Invalid Credentials!" });
